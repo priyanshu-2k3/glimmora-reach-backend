@@ -1,0 +1,22 @@
+# FastAPI & server
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+
+# MongoDB (motor 3.6.0 requires pymongo>=4.9,<4.10)
+motor==3.6.0
+pymongo>=4.9,<4.10
+
+# Auth & security
+python-jose[cryptography]==3.3.0
+bcrypt>=4.0,<5.0
+python-multipart==0.0.17
+
+# Config & validation
+pydantic==2.10.3
+pydantic-settings==2.6.1
+
+# OAuth (Google)
+httpx==0.28.1
+
+# Utils
+email-validator==2.2.0
