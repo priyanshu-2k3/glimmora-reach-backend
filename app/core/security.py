@@ -24,19 +24,20 @@ if not dbg.handlers:
 
 def hash_password(password: str) -> str:
     dbg.debug("[security] hash_password called")
-    dbg.debug(f"[security] type={type(password)}, len={len(password)}, bytes={len(password.encode('utf-8'))}")
-    dbg.debug(f"[security] value={repr(password)}")
+    dbg.debug("[security] password length=%d (redacted)", len(password))
     result = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt(_BCRYPT_ROUNDS)).decode("utf-8")
-    dbg.debug(f"[security] hash result={result[:20]}...")
+    dbg.debug("[security] hash result=%s...", result[:20] if result else "")
     return result
 
 
 def verify_password(plain: str, hashed: str) -> bool:
     dbg.debug("[security] verify_password called")
-    dbg.debug(f"[security] plain type={type(plain)}, len={len(plain)}, bytes={len(plain.encode('utf-8'))}")
-    dbg.debug(f"[security] plain value={repr(plain)}")
-    result = bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
-    dbg.debug(f"[security] verify result={result}")
+    dbg.debug("[security] plain password length=%d (redacted)", len(plain))
+    try:
+        result = bcrypt.checkpw(plain.encode("utf-8"), hashed.encode("utf-8"))
+    except (ValueError, TypeError):
+        return False
+    dbg.debug("[security] verify result=%s", result)
     return result
 
 

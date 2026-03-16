@@ -51,8 +51,9 @@ async def register(
 ) -> LoginResponse:
     """Register a new user. Returns tokens."""
     try:
-        import logging; dbg = logging.getLogger("auth_debug")
-        dbg.debug(f"[route] register body.password type={type(body.password)}, value={repr(body.password)}")
+        import logging
+        dbg = logging.getLogger("auth_debug")
+        dbg.debug("[route] register password length=%d (redacted)", len(body.password))
         _, tokens = await service.register(body)
         return tokens
     except ValueError as e:
