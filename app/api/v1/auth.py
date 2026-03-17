@@ -7,6 +7,10 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, EmailStr
 
+
+class OAuthUrlResponse(BaseModel):
+    url: str
+
 from app.config import settings
 from app.core.deps import get_current_user, get_current_user_id, get_invitation_repository, get_user_repository
 from app.repositories.invitation import InvitationRepository
@@ -197,18 +201,18 @@ async def accept_invite(
 # ----- Google OAuth -----
 
 
-@router.get("/oauth/google")
+@router.get("/oauth/google", response_model=OAuthUrlResponse)
 async def oauth_google_start(
     state: str | None = Query(None, description="Optional state to pass back to frontend"),
-) -> RedirectResponse:
-    """Redirect user to Google consent screen. After login, Google redirects to /oauth/google/callback."""
+) -> OAuthUrlResponse:
+    """Return the Google OAuth URL to open. Client can open this URL (e.g. in browser or new tab). After login, Google redirects to /oauth/google/callback."""
     if not settings.google_client_id or not settings.google_client_secret:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Google OAuth is not configured",
         )
     url = get_google_authorize_url(state=state)
-    return RedirectResponse(url=url, status_code=status.HTTP_302_FOUND)
+    return OAuthUrlResponse(url=url)
 
 
 @router.get("/oauth/google/callback", response_model=LoginResponse)
