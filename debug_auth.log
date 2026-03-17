@@ -1,206 +1,140 @@
-2026-03-17 09:50:48,839 [route] register body.password type=<class 'str'>, value='Priyanshu_26'
-2026-03-17 09:50:48,839 [service] register called
-2026-03-17 09:50:48,840 [service] data.password type=<class 'str'>, value='Priyanshu_26'
-2026-03-17 09:50:48,872 [security] hash_password called
-2026-03-17 09:50:48,872 [security] type=<class 'str'>, len=12, bytes=12
-2026-03-17 09:50:48,872 [security] value='Priyanshu_26'
-2026-03-17 09:50:49,281 [security] hash result=$2b$12$KbI/lh3nnkZ.u...
-2026-03-17 09:54:16,233 [route] register body.password type=<class 'str'>, value='Priyanshu_26'
-2026-03-17 09:54:16,234 [service] register called
-2026-03-17 09:54:16,234 [service] data.password type=<class 'str'>, value='Priyanshu_26'
-2026-03-17 09:54:16,302 [security] hash_password called
-2026-03-17 09:54:16,302 [security] type=<class 'str'>, len=12, bytes=12
-2026-03-17 09:54:16,302 [security] value='Priyanshu_26'
-2026-03-17 09:54:16,725 [security] hash result=$2b$12$JrLy1fNyQDzNp...
-2026-03-17 10:49:46,805 [security] hash_password called
-2026-03-17 10:49:46,805 [security] type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:49:46,805 [security] value='SuperAdmin1!'
-2026-03-17 10:49:47,226 [security] hash result=$2b$12$z7VI./9Oh/Y2c...
-2026-03-17 10:53:04,354 [security] verify_password called
-2026-03-17 10:53:04,354 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:53:04,354 [security] plain value='SuperAdmin1!'
-2026-03-17 10:53:04,743 [security] verify result=True
-2026-03-17 10:53:04,954 [service] register called
-2026-03-17 10:53:04,954 [service] data.password type=<class 'str'>, value='Password1!'
-2026-03-17 10:53:04,994 [security] hash_password called
-2026-03-17 10:53:04,994 [security] type=<class 'str'>, len=10, bytes=10
-2026-03-17 10:53:04,994 [security] value='Password1!'
-2026-03-17 10:53:05,398 [security] hash result=$2b$12$cGqzJ35G5BzWg...
-2026-03-17 10:53:05,928 [security] hash_password called
-2026-03-17 10:53:05,928 [security] type=<class 'str'>, len=11, bytes=11
-2026-03-17 10:53:05,928 [security] value='AdminPass1!'
-2026-03-17 10:53:06,308 [security] hash result=$2b$12$mQbjY1y6fsIlX...
-2026-03-17 10:53:06,395 [security] verify_password called
-2026-03-17 10:53:06,395 [security] plain type=<class 'str'>, len=11, bytes=11
-2026-03-17 10:53:06,395 [security] plain value='AdminPass1!'
-2026-03-17 10:53:06,807 [security] verify result=True
-2026-03-17 10:53:07,328 [security] hash_password called
-2026-03-17 10:53:07,328 [security] type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:53:07,328 [security] value='MemberPass1!'
-2026-03-17 10:53:07,720 [security] hash result=$2b$12$jx1ltV0WJUyoP...
-2026-03-17 10:54:22,002 [security] verify_password called
-2026-03-17 10:54:22,002 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:54:22,002 [security] plain value='SuperAdmin1!'
-2026-03-17 10:54:22,388 [security] verify result=True
-2026-03-17 10:54:22,540 [service] register called
-2026-03-17 10:54:22,541 [service] data.password type=<class 'str'>, value='Password1!'
-2026-03-17 10:54:23,122 [security] verify_password called
-2026-03-17 10:54:23,122 [security] plain type=<class 'str'>, len=11, bytes=11
-2026-03-17 10:54:23,123 [security] plain value='AdminPass1!'
-2026-03-17 10:54:23,532 [security] verify result=True
-2026-03-17 10:54:24,104 [security] verify_password called
-2026-03-17 10:54:24,104 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:54:24,104 [security] plain value='SuperAdmin1!'
-2026-03-17 10:54:24,507 [security] verify result=True
-2026-03-17 10:54:24,507 [security] hash_password called
-2026-03-17 10:54:24,507 [security] type=<class 'str'>, len=10, bytes=10
-2026-03-17 10:54:24,507 [security] value='TempPass1!'
-2026-03-17 10:54:24,918 [security] hash result=$2b$12$CgZNLqSzgFbgk...
-2026-03-17 10:54:25,004 [security] verify_password called
-2026-03-17 10:54:25,005 [security] plain type=<class 'str'>, len=10, bytes=10
-2026-03-17 10:54:25,005 [security] plain value='TempPass1!'
-2026-03-17 10:54:25,398 [security] verify result=True
-2026-03-17 10:54:25,398 [security] hash_password called
-2026-03-17 10:54:25,398 [security] type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:54:25,399 [security] value='SuperAdmin1!'
-2026-03-17 10:54:25,778 [security] hash result=$2b$12$PcN.AV0EuheRo...
-2026-03-17 10:55:43,178 [security] verify_password called
-2026-03-17 10:55:43,178 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:55:43,178 [security] plain value='SuperAdmin1!'
-2026-03-17 10:55:43,569 [security] verify result=True
-2026-03-17 10:55:43,725 [service] register called
-2026-03-17 10:55:43,725 [service] data.password type=<class 'str'>, value='Password1!'
-2026-03-17 10:55:44,310 [security] verify_password called
-2026-03-17 10:55:44,310 [security] plain type=<class 'str'>, len=11, bytes=11
-2026-03-17 10:55:44,310 [security] plain value='AdminPass1!'
-2026-03-17 10:55:44,666 [security] verify result=True
-2026-03-17 10:55:45,228 [security] verify_password called
-2026-03-17 10:55:45,228 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:55:45,228 [security] plain value='SuperAdmin1!'
-2026-03-17 10:55:45,598 [security] verify result=True
-2026-03-17 10:55:45,598 [security] hash_password called
-2026-03-17 10:55:45,598 [security] type=<class 'str'>, len=10, bytes=10
-2026-03-17 10:55:45,598 [security] value='TempPass1!'
-2026-03-17 10:55:45,967 [security] hash result=$2b$12$4sNiOFZYkbkOv...
-2026-03-17 10:55:46,054 [security] verify_password called
-2026-03-17 10:55:46,054 [security] plain type=<class 'str'>, len=10, bytes=10
-2026-03-17 10:55:46,054 [security] plain value='TempPass1!'
-2026-03-17 10:55:46,479 [security] verify result=True
-2026-03-17 10:55:46,479 [security] hash_password called
-2026-03-17 10:55:46,479 [security] type=<class 'str'>, len=12, bytes=12
-2026-03-17 10:55:46,480 [security] value='SuperAdmin1!'
-2026-03-17 10:55:46,889 [security] hash result=$2b$12$DZ5sZ/zAMu8f/...
-2026-03-17 11:01:06,131 [security] verify_password called
-2026-03-17 11:01:06,133 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 11:01:06,133 [security] plain value='SuperAdmin1!'
-2026-03-17 11:01:06,475 [security] verify result=True
-2026-03-17 11:01:22,310 [security] verify_password called
-2026-03-17 11:01:22,310 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 11:01:22,310 [security] plain value='SuperAdmin1!'
-2026-03-17 11:01:22,761 [security] verify result=True
-2026-03-17 11:01:51,082 [security] verify_password called
-2026-03-17 11:01:51,082 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 11:01:51,082 [security] plain value='SuperAdmin1!'
-2026-03-17 11:01:51,459 [security] verify result=True
-2026-03-17 11:01:52,831 [service] register called
-2026-03-17 11:01:52,832 [service] data.password type=<class 'str'>, value='Password1!'
-2026-03-17 11:01:54,254 [security] verify_password called
-2026-03-17 11:01:54,255 [security] plain type=<class 'str'>, len=11, bytes=11
-2026-03-17 11:01:54,255 [security] plain value='AdminPass1!'
-2026-03-17 11:01:54,672 [security] verify result=True
-2026-03-17 11:01:57,656 [security] verify_password called
-2026-03-17 11:01:57,656 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 11:01:57,656 [security] plain value='SuperAdmin1!'
-2026-03-17 11:01:58,098 [security] verify result=True
-2026-03-17 11:01:58,098 [security] hash_password called
-2026-03-17 11:01:58,098 [security] type=<class 'str'>, len=10, bytes=10
-2026-03-17 11:01:58,098 [security] value='TempPass1!'
-2026-03-17 11:01:58,532 [security] hash result=$2b$12$nuNuvCZbiiAXb...
-2026-03-17 11:03:21,729 [security] verify_password called
-2026-03-17 11:03:21,729 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 11:03:21,729 [security] plain value='SuperAdmin1!'
-2026-03-17 11:03:22,167 [security] verify result=False
-2026-03-17 11:03:23,331 [service] register called
-2026-03-17 11:03:23,331 [service] data.password type=<class 'str'>, value='Password1!'
-2026-03-17 11:03:24,011 [security] verify_password called
-2026-03-17 11:03:24,011 [security] plain type=<class 'str'>, len=11, bytes=11
-2026-03-17 11:03:24,011 [security] plain value='AdminPass1!'
-2026-03-17 11:03:24,419 [security] verify result=True
-2026-03-17 11:04:13,359 [security] verify_password called
-2026-03-17 11:04:13,359 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 11:04:13,359 [security] plain value='SuperAdmin1!'
-2026-03-17 11:04:13,736 [security] verify result=False
-2026-03-17 11:04:14,816 [service] register called
-2026-03-17 11:04:14,817 [service] data.password type=<class 'str'>, value='Password1!'
-2026-03-17 11:04:15,474 [security] verify_password called
-2026-03-17 11:04:15,474 [security] plain type=<class 'str'>, len=11, bytes=11
-2026-03-17 11:04:15,474 [security] plain value='AdminPass1!'
-2026-03-17 11:04:15,878 [security] verify result=True
-2026-03-17 11:04:45,746 [security] verify_password called
-2026-03-17 11:04:45,746 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 11:04:45,746 [security] plain value='SuperAdmin1!'
-2026-03-17 11:04:46,176 [security] verify result=False
-2026-03-17 11:04:47,299 [service] register called
-2026-03-17 11:04:47,299 [service] data.password type=<class 'str'>, value='Password1!'
-2026-03-17 11:04:47,961 [security] verify_password called
-2026-03-17 11:04:47,961 [security] plain type=<class 'str'>, len=11, bytes=11
-2026-03-17 11:04:47,961 [security] plain value='AdminPass1!'
-2026-03-17 11:04:48,384 [security] verify result=True
-2026-03-17 14:40:45,113 [security] verify_password called
-2026-03-17 14:40:45,115 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 14:40:45,115 [security] plain value='SuperAdmin1!'
-2026-03-17 14:40:45,449 [security] verify result=False
-2026-03-17 14:42:00,142 [security] verify_password called
-2026-03-17 14:42:00,143 [security] plain type=<class 'str'>, len=0, bytes=0
-2026-03-17 14:42:00,143 [security] plain value=''
-2026-03-17 14:42:00,455 [security] verify result=False
-2026-03-17 14:44:05,577 [service] register called
-2026-03-17 14:44:05,577 [service] data.password type=<class 'str'>, value='Password1!'
-2026-03-17 14:44:05,616 [security] hash_password called
-2026-03-17 14:44:05,616 [security] type=<class 'str'>, len=10, bytes=10
-2026-03-17 14:44:05,616 [security] value='Password1!'
-2026-03-17 14:44:05,944 [security] hash result=$2b$12$eOdz/m38xAR3K...
-2026-03-17 14:44:52,662 [security] verify_password called
-2026-03-17 14:44:52,663 [security] plain type=<class 'str'>, len=10, bytes=10
-2026-03-17 14:44:52,663 [security] plain value='Password1!'
-2026-03-17 14:44:52,990 [security] verify result=True
-2026-03-17 14:46:45,000 [security] verify_password called
-2026-03-17 14:46:45,001 [security] plain type=<class 'str'>, len=10, bytes=10
-2026-03-17 14:46:45,001 [security] plain value='Password1!'
-2026-03-17 14:46:45,322 [security] verify result=True
-2026-03-17 14:46:45,322 [security] hash_password called
-2026-03-17 14:46:45,322 [security] type=<class 'str'>, len=12, bytes=12
-2026-03-17 14:46:45,322 [security] value='Priyanshu_26'
-2026-03-17 14:46:45,633 [security] hash result=$2b$12$l.FfWUVucZB65...
-2026-03-17 14:46:59,862 [security] verify_password called
-2026-03-17 14:46:59,862 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 14:46:59,862 [security] plain value='Priyanshu_26'
-2026-03-17 14:47:00,179 [security] verify result=True
-2026-03-17 14:47:17,046 [security] verify_password called
-2026-03-17 14:47:17,046 [security] plain type=<class 'str'>, len=12, bytes=12
-2026-03-17 14:47:17,046 [security] plain value='Priyanshu_26'
-2026-03-17 14:47:17,365 [security] verify result=True
-2026-03-17 14:47:17,365 [security] hash_password called
-2026-03-17 14:47:17,366 [security] type=<class 'str'>, len=10, bytes=10
-2026-03-17 14:47:17,366 [security] value='Password1!'
-2026-03-17 14:47:17,670 [security] hash result=$2b$12$78wL0dnCbDc9x...
-2026-03-17 14:51:26,809 [security] hash_password called
-2026-03-17 14:51:26,809 [security] type=<class 'str'>, len=10, bytes=10
-2026-03-17 14:51:26,809 [security] value='Password1!'
-2026-03-17 14:51:27,127 [security] hash result=$2b$12$9NeSiyR6FcGEM...
-2026-03-17 14:53:08,210 [security] verify_password called
-2026-03-17 14:53:08,211 [security] plain type=<class 'str'>, len=10, bytes=10
-2026-03-17 14:53:08,211 [security] plain value='Password1!'
-2026-03-17 14:53:08,525 [security] verify result=True
-2026-03-17 14:55:01,560 [security] hash_password called
-2026-03-17 14:55:01,560 [security] type=<class 'str'>, len=10, bytes=10
-2026-03-17 14:55:01,560 [security] value='Password1!'
-2026-03-17 14:55:01,879 [security] hash result=$2b$12$micy4ayaw6p9e...
-2026-03-17 14:55:45,849 [security] verify_password called
-2026-03-17 14:55:45,850 [security] plain type=<class 'str'>, len=10, bytes=10
-2026-03-17 14:55:45,850 [security] plain value='Password1!'
-2026-03-17 14:55:46,174 [security] verify result=True
-2026-03-17 15:47:05,191 [security] verify_password called
-2026-03-17 15:47:05,230 [security] plain type=<class 'str'>, len=10, bytes=10
-2026-03-17 15:47:05,230 [security] plain value='Password1!'
-2026-03-17 15:47:05,704 [security] verify result=True
+2026-03-13 14:29:42,032 [route] register body.password type=<class 'str'>, value='password123'
+2026-03-13 14:29:42,033 [service] register called
+2026-03-13 14:29:42,033 [service] data.password type=<class 'str'>, value='password123'
+2026-03-13 14:29:42,054 [security] hash_password called
+2026-03-13 14:29:42,055 [security] type=<class 'str'>, len=11, bytes=11
+2026-03-13 14:29:42,055 [security] value='password123'
+2026-03-13 14:29:42,292 [security] hash result=$2b$12$fE8JKDvMxR0kj...
+2026-03-13 15:31:27,544 [route] register body.password type=<class 'str'>, value='password123'
+2026-03-13 15:31:27,545 [service] register called
+2026-03-13 15:31:27,545 [service] data.password type=<class 'str'>, value='password123'
+2026-03-13 15:31:55,293 [route] register body.password type=<class 'str'>, value='password123'
+2026-03-13 15:31:55,293 [service] register called
+2026-03-13 15:31:55,293 [service] data.password type=<class 'str'>, value='password123'
+2026-03-13 15:32:11,707 [route] register body.password type=<class 'str'>, value='password123'
+2026-03-13 15:32:11,707 [service] register called
+2026-03-13 15:32:11,707 [service] data.password type=<class 'str'>, value='password123'
+2026-03-13 15:32:11,708 [security] hash_password called
+2026-03-13 15:32:11,708 [security] type=<class 'str'>, len=11, bytes=11
+2026-03-13 15:32:11,708 [security] value='password123'
+2026-03-13 15:32:11,918 [security] hash result=$2b$12$QcXAil7csbGCm...
+2026-03-13 15:35:16,448 [security] verify_password called
+2026-03-13 15:35:16,448 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-13 15:35:16,448 [security] plain value='password123'
+2026-03-13 15:35:16,658 [security] verify result=True
+2026-03-13 15:58:39,365 [route] register body.password type=<class 'str'>, value='password123'
+2026-03-13 15:58:39,365 [service] register called
+2026-03-13 15:58:39,365 [service] data.password type=<class 'str'>, value='password123'
+2026-03-13 15:58:39,366 [security] hash_password called
+2026-03-13 15:58:39,366 [security] type=<class 'str'>, len=11, bytes=11
+2026-03-13 15:58:39,366 [security] value='password123'
+2026-03-13 15:58:39,578 [security] hash result=$2b$12$m.PN6KXt/6mfC...
+2026-03-13 15:58:42,031 [security] verify_password called
+2026-03-13 15:58:42,031 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-13 15:58:42,031 [security] plain value='password123'
+2026-03-13 15:58:42,244 [security] verify result=True
+2026-03-13 15:58:43,409 [security] verify_password called
+2026-03-13 15:58:43,409 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-13 15:58:43,409 [security] plain value='password123'
+2026-03-13 15:58:43,619 [security] verify result=True
+2026-03-13 15:58:43,619 [security] hash_password called
+2026-03-13 15:58:43,619 [security] type=<class 'str'>, len=10, bytes=10
+2026-03-13 15:58:43,619 [security] value='newpass123'
+2026-03-13 15:58:43,829 [security] hash result=$2b$12$XZ9qBMwzBjSkC...
+2026-03-13 15:58:44,116 [security] verify_password called
+2026-03-13 15:58:44,116 [security] plain type=<class 'str'>, len=10, bytes=10
+2026-03-13 15:58:44,116 [security] plain value='newpass123'
+2026-03-13 15:58:44,328 [security] verify result=True
+2026-03-13 16:40:27,142 [security] hash_password called
+2026-03-13 16:40:27,142 [security] password length=11 (redacted)
+2026-03-13 16:40:27,357 [security] hash result=$2b$12$gVmTLe9kuAO8y...
+2026-03-13 16:40:27,359 [security] hash_password called
+2026-03-13 16:40:27,359 [security] password length=12 (redacted)
+2026-03-13 16:40:27,571 [security] hash result=$2b$12$/6utAWw7a/8Af...
+2026-03-13 16:40:27,572 [security] hash_password called
+2026-03-13 16:40:27,572 [security] password length=12 (redacted)
+2026-03-13 16:40:27,784 [security] hash result=$2b$12$8e3e9SAgonRjV...
+2026-03-13 16:40:27,784 [security] verify_password called
+2026-03-13 16:40:27,784 [security] plain password length=12 (redacted)
+2026-03-13 16:40:27,998 [security] verify result=True
+2026-03-13 16:40:27,998 [security] verify_password called
+2026-03-13 16:40:27,998 [security] plain password length=12 (redacted)
+2026-03-13 16:40:28,227 [security] verify result=True
+2026-03-13 16:40:28,229 [security] hash_password called
+2026-03-13 16:40:28,229 [security] password length=9 (redacted)
+2026-03-13 16:40:28,446 [security] hash result=$2b$12$8xDbdb4.0IqCD...
+2026-03-13 16:40:28,446 [security] verify_password called
+2026-03-13 16:40:28,446 [security] plain password length=9 (redacted)
+2026-03-13 16:40:28,661 [security] verify result=True
+2026-03-13 16:40:28,662 [security] hash_password called
+2026-03-13 16:40:28,662 [security] password length=7 (redacted)
+2026-03-13 16:40:28,878 [security] hash result=$2b$12$rRFwGUDDD.MHz...
+2026-03-13 16:40:28,878 [security] verify_password called
+2026-03-13 16:40:28,878 [security] plain password length=5 (redacted)
+2026-03-13 16:40:29,095 [security] verify result=False
+2026-03-13 16:40:29,096 [security] verify_password called
+2026-03-13 16:40:29,096 [security] plain password length=8 (redacted)
+2026-03-13 16:41:30,970 [security] hash_password called
+2026-03-13 16:41:30,971 [security] password length=11 (redacted)
+2026-03-13 16:41:31,186 [security] hash result=$2b$12$cHZ3vAOYMyl5/...
+2026-03-13 16:41:31,188 [security] hash_password called
+2026-03-13 16:41:31,188 [security] password length=12 (redacted)
+2026-03-13 16:41:31,427 [security] hash result=$2b$12$FFahsQW2W.tn8...
+2026-03-13 16:41:31,427 [security] hash_password called
+2026-03-13 16:41:31,427 [security] password length=12 (redacted)
+2026-03-13 16:41:31,642 [security] hash result=$2b$12$GTmrGpbhUCfxt...
+2026-03-13 16:41:31,642 [security] verify_password called
+2026-03-13 16:41:31,643 [security] plain password length=12 (redacted)
+2026-03-13 16:41:31,863 [security] verify result=True
+2026-03-13 16:41:31,864 [security] verify_password called
+2026-03-13 16:41:31,864 [security] plain password length=12 (redacted)
+2026-03-13 16:41:32,085 [security] verify result=True
+2026-03-13 16:41:32,087 [security] hash_password called
+2026-03-13 16:41:32,088 [security] password length=9 (redacted)
+2026-03-13 16:41:32,301 [security] hash result=$2b$12$sF4U5HmeXoHeL...
+2026-03-13 16:41:32,301 [security] verify_password called
+2026-03-13 16:41:32,301 [security] plain password length=9 (redacted)
+2026-03-13 16:41:32,515 [security] verify result=True
+2026-03-13 16:41:32,516 [security] hash_password called
+2026-03-13 16:41:32,517 [security] password length=7 (redacted)
+2026-03-13 16:41:32,731 [security] hash result=$2b$12$GLj8yY1aJZxst...
+2026-03-13 16:41:32,731 [security] verify_password called
+2026-03-13 16:41:32,732 [security] plain password length=5 (redacted)
+2026-03-13 16:41:32,945 [security] verify result=False
+2026-03-13 16:41:32,947 [security] verify_password called
+2026-03-13 16:41:32,947 [security] plain password length=8 (redacted)
+2026-03-13 16:42:01,756 [security] hash_password called
+2026-03-13 16:42:01,756 [security] password length=11 (redacted)
+2026-03-13 16:42:01,973 [security] hash result=$2b$12$LwPJBOOmstUrL...
+2026-03-13 16:42:01,975 [security] hash_password called
+2026-03-13 16:42:01,975 [security] password length=12 (redacted)
+2026-03-13 16:42:02,191 [security] hash result=$2b$12$UfOg180yd7AGb...
+2026-03-13 16:42:02,192 [security] hash_password called
+2026-03-13 16:42:02,192 [security] password length=12 (redacted)
+2026-03-13 16:42:02,405 [security] hash result=$2b$12$4QVM7Q7NzDnBl...
+2026-03-13 16:42:02,405 [security] verify_password called
+2026-03-13 16:42:02,405 [security] plain password length=12 (redacted)
+2026-03-13 16:42:02,620 [security] verify result=True
+2026-03-13 16:42:02,620 [security] verify_password called
+2026-03-13 16:42:02,620 [security] plain password length=12 (redacted)
+2026-03-13 16:42:02,862 [security] verify result=True
+2026-03-13 16:42:02,864 [security] hash_password called
+2026-03-13 16:42:02,864 [security] password length=9 (redacted)
+2026-03-13 16:42:03,079 [security] hash result=$2b$12$uxmz1a.l3nJU9...
+2026-03-13 16:42:03,079 [security] verify_password called
+2026-03-13 16:42:03,079 [security] plain password length=9 (redacted)
+2026-03-13 16:42:03,294 [security] verify result=True
+2026-03-13 16:42:03,296 [security] hash_password called
+2026-03-13 16:42:03,296 [security] password length=7 (redacted)
+2026-03-13 16:42:03,510 [security] hash result=$2b$12$BB75TSVnBxHcK...
+2026-03-13 16:42:03,510 [security] verify_password called
+2026-03-13 16:42:03,510 [security] plain password length=5 (redacted)
+2026-03-13 16:42:03,725 [security] verify result=False
+2026-03-13 16:42:03,726 [security] verify_password called
+2026-03-13 16:42:03,726 [security] plain password length=8 (redacted)
+2026-03-13 17:20:32,408 [route] register password length=8 (redacted)
+2026-03-13 17:20:32,409 [service] register called
+2026-03-13 17:20:32,409 [service] register password length=8 (redacted)
+2026-03-13 17:20:33,307 [security] hash_password called
+2026-03-13 17:20:33,307 [security] password length=8 (redacted)
+2026-03-13 17:20:33,526 [security] hash result=$2b$12$nKlBY5CIOhCgX...

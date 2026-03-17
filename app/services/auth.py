@@ -33,7 +33,7 @@ class AuthService:
 
     async def register(self, data: UserCreate) -> tuple[dict, LoginResponse]:
         dbg.debug("[service] register called")
-        dbg.debug(f"[service] data.password type={type(data.password)}, value={repr(data.password)}")
+        dbg.debug("[service] register password length=%d (redacted)", len(data.password))
         email = data.email.lower().strip()
         existing = await self.user_repo.get_by_email(email)
         if existing:
