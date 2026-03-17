@@ -6,6 +6,7 @@ from typing import Any
 from bson import ObjectId
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
+from app.models.constants import response_role_to_db
 from app.models.user import UserDocument, UserRole
 
 COLLECTION = "users"
@@ -65,8 +66,9 @@ class UserRepository:
                 x if isinstance(x, dict) else x.model_dump()
                 for x in doc["oauth_providers"]
             ]
-        if "role" in doc and hasattr(doc["role"], "value"):
-            doc["role"] = doc["role"].value
+        if "role" in doc:
+            r = doc["role"]
+            doc["role"] = response_role_to_db(r.value if hasattr(r, "value") else str(r))
         result = await self.collection.insert_one(doc)
         doc["_id"] = result.inserted_id
         return _serialize_user(doc)
@@ -99,6 +101,35 @@ class UserRepository:
             return False
         result = await self.collection.delete_one({"_id": ObjectId(user_id)})
         return result.deleted_count > 0
+
+    async def count_by_organization(self, organization_id: str) -> int:
+        return await self.collection.count_documents({
+            "$or": [
+                {"organization_id": organization_id},
+                {"organization_ids": organization_id},
+            ]
+        })
+
+    async def list_by_organization(self, organization_id: str) -> list[dict[str, Any]]:
+        cursor = self.collection.find({
+            "$or": [
+                {"organization_id": organization_id},
+                {"organization_ids": organization_id},
+            ]
+        }).sort("created_at", -1)
+        docs = await cursor.to_list(length=500)
+        return [_serialize_user(d) for d in docs]
+
+    async def list_all_for_super_admin(self) -> list[dict[str, Any]]:
+        cursor = self.collection.find({}).sort("created_at", -1)
+        docs = await cursor.to_list(length=2000)
+        return [_serialize_user(d) for d in docs]
+
+    async def update_role(self, user_id: str, role: str) -> dict[str, Any] | None:
+        return await self.update(user_id, {"role": role.upper()})
+
+    async def set_active(self, user_id: str, is_active: bool) -> dict[str, Any] | None:
+        return await self.update(user_id, {"is_active": is_active})
 
     async def add_oauth_provider(
         self,

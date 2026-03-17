@@ -7,13 +7,20 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, EmailStr
 
+
+class OAuthUrlResponse(BaseModel):
+    url: str
+
 from app.config import settings
-from app.core.deps import get_current_user, get_current_user_id, get_user_repository
+from app.core.deps import get_current_user, get_current_user_id, get_invitation_repository, get_user_repository
+from app.repositories.invitation import InvitationRepository
 from app.repositories.user import UserRepository
 from app.schemas.auth import (
+    AcceptInviteBody,
     ChangePasswordBody,
     LoginResponse,
     UserCreate,
+    UserLoginShape,
     UserProfile,
     UserProfileUpdate,
 )
@@ -28,8 +35,9 @@ from app.services.oauth_google import (
 
 def get_auth_service(
     repo: Annotated[UserRepository, Depends(get_user_repository)],
+    inv_repo: Annotated[InvitationRepository, Depends(get_invitation_repository)],
 ) -> AuthService:
-    return AuthService(repo)
+    return AuthService(repo, inv_repo)
 
 
 router = APIRouter()
@@ -51,9 +59,6 @@ async def register(
 ) -> LoginResponse:
     """Register a new user. Returns tokens."""
     try:
-        import logging
-        dbg = logging.getLogger("auth_debug")
-        dbg.debug("[route] register password length=%d (redacted)", len(body.password))
         _, tokens = await service.register(body)
         return tokens
     except ValueError as e:
@@ -150,21 +155,64 @@ async def change_password(
         )
 
 
+@router.put("/profile", response_model=UserProfile)
+async def put_profile(
+    body: UserProfileUpdate,
+    current_user_id: Annotated[str, Depends(get_current_user_id)],
+    service: Annotated[AuthService, Depends(get_auth_service)],
+) -> UserProfile:
+    """Update own profile (spec: first_name, last_name, language, avatar). Same as PATCH /me."""
+    updated = await service.update_profile(current_user_id, body)
+    if not updated:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    return service.user_to_profile(updated)
+
+
+@router.get("/me/spec", response_model=UserLoginShape)
+async def get_me_spec(
+    current_user: Annotated[dict[str, Any], Depends(get_current_user)],
+    service: Annotated[AuthService, Depends(get_auth_service)],
+) -> UserLoginShape:
+    """Current user in spec shape (id, name, role, orgId, avatar, createdAt)."""
+    return service._user_to_login_shape(current_user)
+
+
+@router.post("/logout", response_model=MessageResponse)
+async def logout() -> MessageResponse:
+    """Logout: client should clear token. No server-side invalidation in this version."""
+    return MessageResponse(message="Logged out")
+
+
+@router.post("/accept-invite", response_model=LoginResponse)
+async def accept_invite(
+    body: AcceptInviteBody,
+    service: Annotated[AuthService, Depends(get_auth_service)],
+) -> LoginResponse:
+    """Complete registration from invite token. Returns tokens and user (logged in)."""
+    try:
+        return await service.accept_invite(body)
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(e),
+        )
+
+
 # ----- Google OAuth -----
 
 
-@router.get("/oauth/google")
+@router.get("/oauth/google", response_model=OAuthUrlResponse)
 async def oauth_google_start(
     state: str | None = Query(None, description="Optional state to pass back to frontend"),
-) -> RedirectResponse:
-    """Redirect user to Google consent screen. After login, Google redirects to /oauth/google/callback."""
+) -> OAuthUrlResponse:
+    """Return the Google OAuth URL to open. Client can open this URL (e.g. in browser or new tab). After login, Google redirects to /oauth/google/callback."""
     if not settings.google_client_id or not settings.google_client_secret:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
             detail="Google OAuth is not configured",
         )
     url = get_google_authorize_url(state=state)
-    return RedirectResponse(url=url, status_code=status.HTTP_302_FOUND)
+    return OAuthUrlResponse(url=url)
 
 
 @router.get("/oauth/google/callback", response_model=LoginResponse)

@@ -36,7 +36,8 @@ class UserDocument(BaseModel):
 
     email_verified: bool = False
     is_active: bool = True
-    organization_ids: list[str] = Field(default_factory=list)  # ObjectId as str
+    organization_id: str | None = None  # single org (spec); null for SUPER_ADMIN
+    organization_ids: list[str] = Field(default_factory=list)  # legacy
     oauth_providers: list[OAuthProviderLink] = Field(default_factory=list)
 
     created_at: datetime = Field(default_factory=datetime.utcnow)
