@@ -59,6 +59,17 @@ class TokenPayload(BaseModel):
     email: str | None = None
 
 
+class UserLoginShape(BaseModel):
+    """User object in login/me response (spec: id, name, role lowercase, orgId, etc.)."""
+    id: str
+    name: str
+    email: str
+    role: str  # super_admin, admin, campaign_manager, analyst, client
+    orgId: str | None = None
+    avatar: str | None = None
+    createdAt: str
+
+
 class LoginResponse(BaseModel):
     """Login/refresh response."""
 
@@ -66,3 +77,11 @@ class LoginResponse(BaseModel):
     refresh_token: str
     token_type: str = "bearer"
     expires_in: int  # seconds
+    user: UserLoginShape | None = None  # spec: include for login/accept-invite
+
+
+class AcceptInviteBody(BaseModel):
+    token: str = Field(..., min_length=1)
+    first_name: str = Field(..., min_length=1, max_length=100)
+    last_name: str = Field(..., min_length=1, max_length=100)
+    password: str = Field(..., min_length=8, max_length=128)

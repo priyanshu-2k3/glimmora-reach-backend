@@ -8,6 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.database import close_db, connect_db, get_database
 from app.api.v1.router import api_router
+from app.repositories.invitation import InvitationRepository
+from app.repositories.organization import OrganizationRepository
 from app.repositories.user import UserRepository
 
 
@@ -16,6 +18,8 @@ async def lifespan(app: FastAPI):
     await connect_db()
     db = await get_database()
     await UserRepository(db).create_indexes()
+    await OrganizationRepository(db).create_indexes()
+    await InvitationRepository(db).create_indexes()
     yield
     await close_db()
 

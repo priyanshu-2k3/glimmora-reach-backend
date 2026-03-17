@@ -33,9 +33,25 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: str = "http://localhost:3000,http://localhost:5173"
 
+    # Super Admin seed (for seed.py)
+    super_admin_email: str = ""
+    super_admin_password: str = ""
+
+    # Invite email (optional)
+    invite_base_url: str = "http://localhost:3000"
+    smtp_host: str = ""
+    smtp_port: int = 587
+    smtp_user: str = ""
+    smtp_password: str = ""
+    from_email: str = "noreply@glimmora.io"
+
     @property
     def cors_origins_list(self) -> list[str]:
         return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+
+    @property
+    def jwt_secret(self) -> str:
+        return self.secret_key
 
 
 settings = Settings()

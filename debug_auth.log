@@ -1,0 +1,148 @@
+2026-03-17 09:50:48,839 [route] register body.password type=<class 'str'>, value='Priyanshu_26'
+2026-03-17 09:50:48,839 [service] register called
+2026-03-17 09:50:48,840 [service] data.password type=<class 'str'>, value='Priyanshu_26'
+2026-03-17 09:50:48,872 [security] hash_password called
+2026-03-17 09:50:48,872 [security] type=<class 'str'>, len=12, bytes=12
+2026-03-17 09:50:48,872 [security] value='Priyanshu_26'
+2026-03-17 09:50:49,281 [security] hash result=$2b$12$KbI/lh3nnkZ.u...
+2026-03-17 09:54:16,233 [route] register body.password type=<class 'str'>, value='Priyanshu_26'
+2026-03-17 09:54:16,234 [service] register called
+2026-03-17 09:54:16,234 [service] data.password type=<class 'str'>, value='Priyanshu_26'
+2026-03-17 09:54:16,302 [security] hash_password called
+2026-03-17 09:54:16,302 [security] type=<class 'str'>, len=12, bytes=12
+2026-03-17 09:54:16,302 [security] value='Priyanshu_26'
+2026-03-17 09:54:16,725 [security] hash result=$2b$12$JrLy1fNyQDzNp...
+2026-03-17 10:49:46,805 [security] hash_password called
+2026-03-17 10:49:46,805 [security] type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:49:46,805 [security] value='SuperAdmin1!'
+2026-03-17 10:49:47,226 [security] hash result=$2b$12$z7VI./9Oh/Y2c...
+2026-03-17 10:53:04,354 [security] verify_password called
+2026-03-17 10:53:04,354 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:53:04,354 [security] plain value='SuperAdmin1!'
+2026-03-17 10:53:04,743 [security] verify result=True
+2026-03-17 10:53:04,954 [service] register called
+2026-03-17 10:53:04,954 [service] data.password type=<class 'str'>, value='Password1!'
+2026-03-17 10:53:04,994 [security] hash_password called
+2026-03-17 10:53:04,994 [security] type=<class 'str'>, len=10, bytes=10
+2026-03-17 10:53:04,994 [security] value='Password1!'
+2026-03-17 10:53:05,398 [security] hash result=$2b$12$cGqzJ35G5BzWg...
+2026-03-17 10:53:05,928 [security] hash_password called
+2026-03-17 10:53:05,928 [security] type=<class 'str'>, len=11, bytes=11
+2026-03-17 10:53:05,928 [security] value='AdminPass1!'
+2026-03-17 10:53:06,308 [security] hash result=$2b$12$mQbjY1y6fsIlX...
+2026-03-17 10:53:06,395 [security] verify_password called
+2026-03-17 10:53:06,395 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-17 10:53:06,395 [security] plain value='AdminPass1!'
+2026-03-17 10:53:06,807 [security] verify result=True
+2026-03-17 10:53:07,328 [security] hash_password called
+2026-03-17 10:53:07,328 [security] type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:53:07,328 [security] value='MemberPass1!'
+2026-03-17 10:53:07,720 [security] hash result=$2b$12$jx1ltV0WJUyoP...
+2026-03-17 10:54:22,002 [security] verify_password called
+2026-03-17 10:54:22,002 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:54:22,002 [security] plain value='SuperAdmin1!'
+2026-03-17 10:54:22,388 [security] verify result=True
+2026-03-17 10:54:22,540 [service] register called
+2026-03-17 10:54:22,541 [service] data.password type=<class 'str'>, value='Password1!'
+2026-03-17 10:54:23,122 [security] verify_password called
+2026-03-17 10:54:23,122 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-17 10:54:23,123 [security] plain value='AdminPass1!'
+2026-03-17 10:54:23,532 [security] verify result=True
+2026-03-17 10:54:24,104 [security] verify_password called
+2026-03-17 10:54:24,104 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:54:24,104 [security] plain value='SuperAdmin1!'
+2026-03-17 10:54:24,507 [security] verify result=True
+2026-03-17 10:54:24,507 [security] hash_password called
+2026-03-17 10:54:24,507 [security] type=<class 'str'>, len=10, bytes=10
+2026-03-17 10:54:24,507 [security] value='TempPass1!'
+2026-03-17 10:54:24,918 [security] hash result=$2b$12$CgZNLqSzgFbgk...
+2026-03-17 10:54:25,004 [security] verify_password called
+2026-03-17 10:54:25,005 [security] plain type=<class 'str'>, len=10, bytes=10
+2026-03-17 10:54:25,005 [security] plain value='TempPass1!'
+2026-03-17 10:54:25,398 [security] verify result=True
+2026-03-17 10:54:25,398 [security] hash_password called
+2026-03-17 10:54:25,398 [security] type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:54:25,399 [security] value='SuperAdmin1!'
+2026-03-17 10:54:25,778 [security] hash result=$2b$12$PcN.AV0EuheRo...
+2026-03-17 10:55:43,178 [security] verify_password called
+2026-03-17 10:55:43,178 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:55:43,178 [security] plain value='SuperAdmin1!'
+2026-03-17 10:55:43,569 [security] verify result=True
+2026-03-17 10:55:43,725 [service] register called
+2026-03-17 10:55:43,725 [service] data.password type=<class 'str'>, value='Password1!'
+2026-03-17 10:55:44,310 [security] verify_password called
+2026-03-17 10:55:44,310 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-17 10:55:44,310 [security] plain value='AdminPass1!'
+2026-03-17 10:55:44,666 [security] verify result=True
+2026-03-17 10:55:45,228 [security] verify_password called
+2026-03-17 10:55:45,228 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:55:45,228 [security] plain value='SuperAdmin1!'
+2026-03-17 10:55:45,598 [security] verify result=True
+2026-03-17 10:55:45,598 [security] hash_password called
+2026-03-17 10:55:45,598 [security] type=<class 'str'>, len=10, bytes=10
+2026-03-17 10:55:45,598 [security] value='TempPass1!'
+2026-03-17 10:55:45,967 [security] hash result=$2b$12$4sNiOFZYkbkOv...
+2026-03-17 10:55:46,054 [security] verify_password called
+2026-03-17 10:55:46,054 [security] plain type=<class 'str'>, len=10, bytes=10
+2026-03-17 10:55:46,054 [security] plain value='TempPass1!'
+2026-03-17 10:55:46,479 [security] verify result=True
+2026-03-17 10:55:46,479 [security] hash_password called
+2026-03-17 10:55:46,479 [security] type=<class 'str'>, len=12, bytes=12
+2026-03-17 10:55:46,480 [security] value='SuperAdmin1!'
+2026-03-17 10:55:46,889 [security] hash result=$2b$12$DZ5sZ/zAMu8f/...
+2026-03-17 11:01:06,131 [security] verify_password called
+2026-03-17 11:01:06,133 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 11:01:06,133 [security] plain value='SuperAdmin1!'
+2026-03-17 11:01:06,475 [security] verify result=True
+2026-03-17 11:01:22,310 [security] verify_password called
+2026-03-17 11:01:22,310 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 11:01:22,310 [security] plain value='SuperAdmin1!'
+2026-03-17 11:01:22,761 [security] verify result=True
+2026-03-17 11:01:51,082 [security] verify_password called
+2026-03-17 11:01:51,082 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 11:01:51,082 [security] plain value='SuperAdmin1!'
+2026-03-17 11:01:51,459 [security] verify result=True
+2026-03-17 11:01:52,831 [service] register called
+2026-03-17 11:01:52,832 [service] data.password type=<class 'str'>, value='Password1!'
+2026-03-17 11:01:54,254 [security] verify_password called
+2026-03-17 11:01:54,255 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-17 11:01:54,255 [security] plain value='AdminPass1!'
+2026-03-17 11:01:54,672 [security] verify result=True
+2026-03-17 11:01:57,656 [security] verify_password called
+2026-03-17 11:01:57,656 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 11:01:57,656 [security] plain value='SuperAdmin1!'
+2026-03-17 11:01:58,098 [security] verify result=True
+2026-03-17 11:01:58,098 [security] hash_password called
+2026-03-17 11:01:58,098 [security] type=<class 'str'>, len=10, bytes=10
+2026-03-17 11:01:58,098 [security] value='TempPass1!'
+2026-03-17 11:01:58,532 [security] hash result=$2b$12$nuNuvCZbiiAXb...
+2026-03-17 11:03:21,729 [security] verify_password called
+2026-03-17 11:03:21,729 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 11:03:21,729 [security] plain value='SuperAdmin1!'
+2026-03-17 11:03:22,167 [security] verify result=False
+2026-03-17 11:03:23,331 [service] register called
+2026-03-17 11:03:23,331 [service] data.password type=<class 'str'>, value='Password1!'
+2026-03-17 11:03:24,011 [security] verify_password called
+2026-03-17 11:03:24,011 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-17 11:03:24,011 [security] plain value='AdminPass1!'
+2026-03-17 11:03:24,419 [security] verify result=True
+2026-03-17 11:04:13,359 [security] verify_password called
+2026-03-17 11:04:13,359 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 11:04:13,359 [security] plain value='SuperAdmin1!'
+2026-03-17 11:04:13,736 [security] verify result=False
+2026-03-17 11:04:14,816 [service] register called
+2026-03-17 11:04:14,817 [service] data.password type=<class 'str'>, value='Password1!'
+2026-03-17 11:04:15,474 [security] verify_password called
+2026-03-17 11:04:15,474 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-17 11:04:15,474 [security] plain value='AdminPass1!'
+2026-03-17 11:04:15,878 [security] verify result=True
+2026-03-17 11:04:45,746 [security] verify_password called
+2026-03-17 11:04:45,746 [security] plain type=<class 'str'>, len=12, bytes=12
+2026-03-17 11:04:45,746 [security] plain value='SuperAdmin1!'
+2026-03-17 11:04:46,176 [security] verify result=False
+2026-03-17 11:04:47,299 [service] register called
+2026-03-17 11:04:47,299 [service] data.password type=<class 'str'>, value='Password1!'
+2026-03-17 11:04:47,961 [security] verify_password called
+2026-03-17 11:04:47,961 [security] plain type=<class 'str'>, len=11, bytes=11
+2026-03-17 11:04:47,961 [security] plain value='AdminPass1!'
+2026-03-17 11:04:48,384 [security] verify result=True

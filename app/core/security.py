@@ -40,11 +40,18 @@ def verify_password(plain: str, hashed: str) -> bool:
     return result
 
 
-def create_access_token(sub: str, email: str | None = None) -> str:
+def create_access_token(
+    sub: str,
+    email: str | None = None,
+    role: str | None = None,
+    org_id: str | None = None,
+) -> str:
     return _create_token(
         sub=sub,
         token_type="access",
         email=email,
+        role=role,
+        org_id=org_id,
         expires_delta=timedelta(minutes=settings.jwt_access_expire_minutes),
     )
 
@@ -62,6 +69,8 @@ def _create_token(
     sub: str,
     token_type: str,
     email: str | None = None,
+    role: str | None = None,
+    org_id: str | None = None,
     expires_delta: timedelta | None = None,
 ) -> str:
     now = datetime.now(timezone.utc)
@@ -74,6 +83,10 @@ def _create_token(
     }
     if email:
         payload["email"] = email
+    if role:
+        payload["role"] = role.upper()
+    if org_id is not None:
+        payload["org_id"] = org_id
     return jwt.encode(
         payload,
         settings.secret_key,
