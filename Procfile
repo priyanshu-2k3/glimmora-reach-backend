@@ -1,1 +1,1 @@
-web: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+web: bash build.sh && uvicorn app.main:app --host 0.0.0.0 --port $PORT

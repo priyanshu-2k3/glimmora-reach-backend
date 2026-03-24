@@ -33,6 +33,10 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: str = "http://localhost:3000,http://localhost:5173"
 
+    # Google Ads API
+    google_ads_developer_token: str = ""
+    google_ads_refresh_token: str = ""
+
     # Super Admin seed (for seed.py)
     super_admin_email: str = ""
     super_admin_password: str = ""
