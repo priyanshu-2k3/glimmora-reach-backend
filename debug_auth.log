@@ -34,3 +34,124 @@
 2026-03-27 15:31:03,986 [security] verify_password called
 2026-03-27 15:31:03,986 [security] plain password length=10 (redacted)
 2026-03-27 15:31:04,260 [security] verify result=True
+2026-03-27 15:45:18,122 [security] verify_password called
+2026-03-27 15:45:18,123 [security] plain password length=12 (redacted)
+2026-03-27 15:45:18,328 [security] verify result=True
+2026-03-27 15:45:31,941 [security] verify_password called
+2026-03-27 15:45:31,942 [security] plain password length=12 (redacted)
+2026-03-27 15:45:32,341 [security] verify result=True
+2026-03-27 15:45:33,778 [service] register called
+2026-03-27 15:45:33,778 [service] register password length=10 (redacted)
+2026-03-27 15:45:33,818 [security] hash_password called
+2026-03-27 15:45:33,819 [security] password length=10 (redacted)
+2026-03-27 15:45:34,163 [security] hash result=$2b$12$/F1xAzZFsZPJi...
+2026-03-27 15:45:50,726 [security] verify_password called
+2026-03-27 15:45:50,726 [security] plain password length=12 (redacted)
+2026-03-27 15:45:51,083 [security] verify result=True
+2026-03-27 15:45:53,538 [security] hash_password called
+2026-03-27 15:45:53,539 [security] password length=11 (redacted)
+2026-03-27 15:45:53,894 [security] hash result=$2b$12$N3RXUbxr2W.Ge...
+2026-03-27 15:45:54,769 [security] verify_password called
+2026-03-27 15:45:54,769 [security] plain password length=11 (redacted)
+2026-03-27 15:45:55,122 [security] verify result=True
+2026-03-27 15:46:25,926 [security] verify_password called
+2026-03-27 15:46:25,926 [security] plain password length=12 (redacted)
+2026-03-27 15:46:26,279 [security] verify result=True
+2026-03-27 15:46:27,449 [security] hash_password called
+2026-03-27 15:46:27,449 [security] password length=11 (redacted)
+2026-03-27 15:46:27,850 [security] hash result=$2b$12$wD5RzTlBPre9d...
+2026-03-27 15:46:28,240 [security] verify_password called
+2026-03-27 15:46:28,240 [security] plain password length=11 (redacted)
+2026-03-27 15:46:28,652 [security] verify result=True
+2026-03-27 15:46:30,379 [security] hash_password called
+2026-03-27 15:46:30,393 [security] password length=12 (redacted)
+2026-03-27 15:46:30,799 [security] hash result=$2b$12$TtDwW2UIiP34O...
+2026-03-27 15:46:54,025 [security] verify_password called
+2026-03-27 15:46:54,025 [security] plain password length=12 (redacted)
+2026-03-27 15:46:54,383 [security] verify result=True
+2026-03-27 15:46:55,505 [security] hash_password called
+2026-03-27 15:46:55,505 [security] password length=11 (redacted)
+2026-03-27 15:46:55,860 [security] hash result=$2b$12$a9yAxADpO8dD6...
+2026-03-27 15:46:56,254 [security] verify_password called
+2026-03-27 15:46:56,282 [security] plain password length=11 (redacted)
+2026-03-27 15:46:56,637 [security] verify result=True
+2026-03-27 15:46:57,967 [security] hash_password called
+2026-03-27 15:46:57,967 [security] password length=12 (redacted)
+2026-03-27 15:46:58,330 [security] hash result=$2b$12$HDGBkwwK9.Qnh...
+2026-03-27 15:47:00,344 [security] verify_password called
+2026-03-27 15:47:00,344 [security] plain password length=12 (redacted)
+2026-03-27 15:47:00,701 [security] verify result=True
+2026-03-27 15:47:00,703 [security] hash_password called
+2026-03-27 15:47:00,703 [security] password length=12 (redacted)
+2026-03-27 15:47:01,065 [security] hash result=$2b$12$EV7huuH3KqP0G...
+2026-03-27 15:50:05,428 [security] verify_password called
+2026-03-27 15:50:05,428 [security] plain password length=12 (redacted)
+2026-03-27 15:50:05,635 [security] verify result=True
+2026-03-27 15:52:31,793 [security] verify_password called
+2026-03-27 15:52:31,793 [security] plain password length=12 (redacted)
+2026-03-27 15:52:31,999 [security] verify result=True
+2026-03-27 15:54:16,570 [security] verify_password called
+2026-03-27 15:54:16,570 [security] plain password length=12 (redacted)
+2026-03-27 15:54:16,783 [security] verify result=True
+2026-03-27 15:54:38,050 [security] verify_password called
+2026-03-27 15:54:38,050 [security] plain password length=12 (redacted)
+2026-03-27 15:54:38,259 [security] verify result=True
+2026-03-27 15:54:56,723 [security] verify_password called
+2026-03-27 15:54:56,723 [security] plain password length=12 (redacted)
+2026-03-27 15:54:56,930 [security] verify result=True
+2026-03-27 15:55:06,994 [security] verify_password called
+2026-03-27 15:55:06,994 [security] plain password length=12 (redacted)
+2026-03-27 15:55:07,209 [security] verify result=True
+2026-03-27 15:55:17,934 [security] verify_password called
+2026-03-27 15:55:17,934 [security] plain password length=12 (redacted)
+2026-03-27 15:55:18,147 [security] verify result=True
+2026-03-27 15:55:30,902 [security] verify_password called
+2026-03-27 15:55:30,902 [security] plain password length=12 (redacted)
+2026-03-27 15:55:31,112 [security] verify result=True
+2026-03-27 15:55:46,112 [security] verify_password called
+2026-03-27 15:55:46,112 [security] plain password length=12 (redacted)
+2026-03-27 15:55:46,359 [security] verify result=True
+2026-03-27 15:56:06,088 [security] verify_password called
+2026-03-27 15:56:06,088 [security] plain password length=12 (redacted)
+2026-03-27 15:56:06,298 [security] verify result=True
+2026-03-27 15:56:53,608 [security] verify_password called
+2026-03-27 15:56:53,608 [security] plain password length=12 (redacted)
+2026-03-27 15:56:53,814 [security] verify result=True
+2026-03-27 15:59:29,329 [security] verify_password called
+2026-03-27 15:59:29,329 [security] plain password length=12 (redacted)
+2026-03-27 15:59:29,536 [security] verify result=True
+2026-03-27 16:06:07,196 [security] verify_password called
+2026-03-27 16:06:07,196 [security] plain password length=12 (redacted)
+2026-03-27 16:06:07,434 [security] verify result=True
+2026-03-27 16:06:08,099 [security] verify_password called
+2026-03-27 16:06:08,099 [security] plain password length=12 (redacted)
+2026-03-27 16:06:08,360 [security] verify result=True
+2026-03-27 16:06:09,305 [service] register called
+2026-03-27 16:06:09,305 [service] register password length=10 (redacted)
+2026-03-27 16:06:09,343 [security] hash_password called
+2026-03-27 16:06:09,344 [security] password length=10 (redacted)
+2026-03-27 16:06:09,596 [security] hash result=$2b$12$gdczl2oncPqhb...
+2026-03-27 16:06:09,989 [security] verify_password called
+2026-03-27 16:06:09,989 [security] plain password length=12 (redacted)
+2026-03-27 16:06:10,232 [security] verify result=True
+2026-03-27 16:06:11,296 [security] verify_password called
+2026-03-27 16:06:11,296 [security] plain password length=12 (redacted)
+2026-03-27 16:06:11,500 [security] verify result=True
+2026-03-27 16:06:11,500 [security] hash_password called
+2026-03-27 16:06:11,500 [security] password length=12 (redacted)
+2026-03-27 16:06:11,707 [security] hash result=$2b$12$aQ3ZlKlynnwVd...
+2026-03-27 16:06:40,051 [security] verify_password called
+2026-03-27 16:06:40,051 [security] plain password length=12 (redacted)
+2026-03-27 16:06:40,264 [security] verify result=True
+2026-03-27 16:06:42,777 [security] hash_password called
+2026-03-27 16:06:42,777 [security] password length=11 (redacted)
+2026-03-27 16:06:43,028 [security] hash result=$2b$12$NEIEqpfOi/eD4...
+2026-03-27 16:06:43,715 [security] verify_password called
+2026-03-27 16:06:43,715 [security] plain password length=11 (redacted)
+2026-03-27 16:06:43,925 [security] verify result=True
+2026-03-27 16:06:45,882 [security] hash_password called
+2026-03-27 16:06:45,882 [security] password length=12 (redacted)
+2026-03-27 16:06:46,122 [security] hash result=$2b$12$Exgssvd8credM...
+2026-03-27 16:07:13,688 [security] verify_password called
+2026-03-27 16:07:13,688 [security] plain password length=12 (redacted)
+2026-03-27 16:07:13,913 [security] verify result=True
