@@ -11,6 +11,7 @@ from app.api.v1.router import api_router
 from app.repositories.invitation import InvitationRepository
 from app.repositories.organization import OrganizationRepository
 from app.repositories.user import UserRepository
+from app.repositories.google_ads_connection import GoogleAdsConnectionRepository
 
 
 @asynccontextmanager
@@ -20,6 +21,7 @@ async def lifespan(app: FastAPI):
     await UserRepository(db).create_indexes()
     await OrganizationRepository(db).create_indexes()
     await InvitationRepository(db).create_indexes()
+    await GoogleAdsConnectionRepository(db).create_indexes()
     yield
     await close_db()
 
@@ -33,9 +35,11 @@ app = FastAPI(
     redoc_url="/redoc",
 )
 
+_origins = settings.cors_origins_list or ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins_list,
+    allow_origins=_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

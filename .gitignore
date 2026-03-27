@@ -2,6 +2,7 @@
 .env
 .env.local
 *.pem
+google-ads.yaml
 
 # Python
 __pycache__/

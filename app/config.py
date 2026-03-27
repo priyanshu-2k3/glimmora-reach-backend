@@ -33,6 +33,10 @@ class Settings(BaseSettings):
     # CORS
     cors_origins: str = "http://localhost:3000,http://localhost:5173"
 
+    # Google Ads API
+    google_ads_developer_token: str = ""
+    google_ads_redirect_uri: str = "http://localhost:8000/api/v1/google-ads/oauth/callback"
+
     # Super Admin seed (for seed.py)
     super_admin_email: str = ""
     super_admin_password: str = ""
@@ -47,7 +51,12 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins_list(self) -> list[str]:
-        return [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+        origins = [o.strip() for o in self.cors_origins.split(",") if o.strip()]
+        # Always include the production frontend
+        production = "https://glimmora-reach-frontend.vercel.app"
+        if production not in origins:
+            origins.append(production)
+        return origins
 
     @property
     def jwt_secret(self) -> str:
