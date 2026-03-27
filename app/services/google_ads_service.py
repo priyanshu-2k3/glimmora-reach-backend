@@ -1,14 +1,34 @@
 """Google Ads API service — wraps the google-ads SDK."""
 
 import uuid
+from datetime import date, timedelta
 
 from app.repositories.google_ads import GoogleAdsRepository
+from app.services.google_ads_config import load_google_ads_base_config
 
 
-def _get_client():
-    """Load Google Ads client from google-ads.yaml."""
+def _get_client(refresh_token: str | None = None):
+    """
+    Load Google Ads client.
+    If refresh_token is provided (user's own token from DB), use it.
+    Otherwise fall back to google-ads.yaml.
+    """
     from google.ads.googleads.client import GoogleAdsClient
-    return GoogleAdsClient.load_from_storage("google-ads.yaml")
+
+    base = load_google_ads_base_config()
+    if refresh_token:
+        config = {
+            "developer_token": base["developer_token"],
+            "client_id": base["client_id"],
+            "client_secret": base["client_secret"],
+            "refresh_token": refresh_token,
+            "use_proto_plus": base.get("use_proto_plus", True),
+        }
+        if base.get("login_customer_id"):
+            config["login_customer_id"] = str(base["login_customer_id"])
+        return GoogleAdsClient.load_from_dict(config)
+
+    return GoogleAdsClient.load_from_dict(base)
 
 
 class GoogleAdsService:
@@ -17,8 +37,8 @@ class GoogleAdsService:
 
     # ── Accounts ─────────────────────────────────────────────────────────────
 
-    async def list_accounts(self) -> list[str]:
-        client = _get_client()
+    async def list_accounts(self, refresh_token: str) -> list[str]:
+        client = _get_client(refresh_token)
         service = client.get_service("CustomerService")
         result = service.list_accessible_customers()
         return list(result.resource_names)
@@ -26,8 +46,8 @@ class GoogleAdsService:
     # ── Budget ────────────────────────────────────────────────────────────────
 
     async def create_budget(self, customer_id: str, name: str, amount_inr: int,
-                            delivery_method: str) -> dict:
-        client = _get_client()
+                            delivery_method: str, refresh_token: str) -> dict:
+        client = _get_client(refresh_token)
         service = client.get_service("CampaignBudgetService")
         operation = client.get_type("CampaignBudgetOperation")
         budget = operation.create
@@ -56,8 +76,8 @@ class GoogleAdsService:
     # ── Campaign ──────────────────────────────────────────────────────────────
 
     async def create_campaign(self, customer_id: str, name: str, budget_resource: str,
-                              channel_type: str, status: str) -> dict:
-        client = _get_client()
+                              channel_type: str, status: str, refresh_token: str) -> dict:
+        client = _get_client(refresh_token)
         service = client.get_service("CampaignService")
         operation = client.get_type("CampaignOperation")
         campaign = operation.create
@@ -90,8 +110,8 @@ class GoogleAdsService:
         )
         return {"status": "created", "campaign_resource": resource_name, "db_id": db_id}
 
-    async def list_campaigns(self, customer_id: str) -> list[dict]:
-        client = _get_client()
+    async def list_campaigns(self, customer_id: str, refresh_token: str) -> list[dict]:
+        client = _get_client(refresh_token)
         ga_service = client.get_service("GoogleAdsService")
         query = """
             SELECT campaign.id, campaign.name, campaign.status
@@ -109,8 +129,27 @@ class GoogleAdsService:
             for row in response
         ]
 
-    async def delete_campaign(self, customer_id: str, campaign_id: str) -> dict:
-        client = _get_client()
+    async def update_campaign_status(self, customer_id: str, campaign_id: str,
+                                     status: str, refresh_token: str) -> dict:
+        client = _get_client(refresh_token)
+        service = client.get_service("CampaignService")
+        operation = client.get_type("CampaignOperation")
+        campaign = operation.update
+
+        campaign.resource_name = f"customers/{customer_id}/campaigns/{campaign_id}"
+        campaign.status = getattr(client.enums.CampaignStatusEnum, status.upper())
+
+        from google.protobuf import field_mask_pb2
+        operation.update_mask.CopyFrom(
+            field_mask_pb2.FieldMask(paths=["status"])
+        )
+
+        service.mutate_campaigns(customer_id=customer_id, operations=[operation])
+        return {"status": "updated", "campaign_id": campaign_id, "new_status": status.upper()}
+
+    async def delete_campaign(self, customer_id: str, campaign_id: str,
+                              refresh_token: str) -> dict:
+        client = _get_client(refresh_token)
         service = client.get_service("CampaignService")
         operation = client.get_type("CampaignOperation")
         operation.remove = f"customers/{customer_id}/campaigns/{campaign_id}"
@@ -120,11 +159,81 @@ class GoogleAdsService:
         await self.repo.save_deleted_campaign(customer_id, campaign_id)
         return {"status": "deleted", "campaign_id": campaign_id}
 
+    # ── Metrics ───────────────────────────────────────────────────────────────
+
+    async def fetch_metrics(self, customer_id: str, refresh_token: str,
+                            days: int = 30) -> list[dict]:
+        client = _get_client(refresh_token)
+        ga_service = client.get_service("GoogleAdsService")
+
+        end = date.today()
+        start = end - timedelta(days=days)
+
+        query = f"""
+            SELECT
+              campaign.id,
+              campaign.name,
+              campaign.status,
+              metrics.clicks,
+              metrics.impressions,
+              metrics.cost_micros,
+              metrics.conversions,
+              metrics.ctr
+            FROM campaign
+            WHERE segments.date BETWEEN '{start}' AND '{end}'
+              AND campaign.status != 'REMOVED'
+            ORDER BY campaign.id
+        """
+        response = ga_service.search(customer_id=customer_id, query=query)
+        metrics = []
+        for row in response:
+            cost_inr = row.metrics.cost_micros / 1_000_000
+            metrics.append({
+                "campaign_id": row.campaign.id,
+                "campaign_name": row.campaign.name,
+                "campaign_status": row.campaign.status.name,
+                "clicks": row.metrics.clicks,
+                "impressions": row.metrics.impressions,
+                "cost_inr": round(cost_inr, 2),
+                "conversions": row.metrics.conversions,
+                "ctr": round(row.metrics.ctr, 4),
+            })
+
+        await self.repo.save_metrics(customer_id=customer_id, metrics=metrics)
+        return metrics
+
+    async def get_dashboard_stats(self, customer_id: str, refresh_token: str) -> dict:
+        metrics = await self.repo.get_latest_metrics(customer_id)
+        campaigns = await self.list_campaigns(customer_id, refresh_token)
+        active = sum(1 for c in campaigns if c["status"] == "ENABLED")
+        paused = sum(1 for c in campaigns if c["status"] == "PAUSED")
+
+        total_clicks = sum(m.get("clicks", 0) for m in metrics)
+        total_impressions = sum(m.get("impressions", 0) for m in metrics)
+        total_cost = sum(m.get("cost_inr", 0.0) for m in metrics)
+        total_conversions = sum(m.get("conversions", 0.0) for m in metrics)
+        avg_ctr = (
+            round(sum(m.get("ctr", 0.0) for m in metrics) / len(metrics), 4)
+            if metrics else 0.0
+        )
+
+        return {
+            "total_clicks": total_clicks,
+            "total_impressions": total_impressions,
+            "total_cost_inr": round(total_cost, 2),
+            "total_conversions": round(total_conversions, 2),
+            "avg_ctr": avg_ctr,
+            "campaign_count": len(campaigns),
+            "active_campaigns": active,
+            "paused_campaigns": paused,
+        }
+
     # ── Ad Group ──────────────────────────────────────────────────────────────
 
     async def create_adgroup(self, customer_id: str, name: str, campaign_resource: str,
-                             cpc_bid_inr: int, type_: str, status: str) -> dict:
-        client = _get_client()
+                             cpc_bid_inr: int, type_: str, status: str,
+                             refresh_token: str) -> dict:
+        client = _get_client(refresh_token)
         service = client.get_service("AdGroupService")
         operation = client.get_type("AdGroupOperation")
         ad_group = operation.create
@@ -155,8 +264,9 @@ class GoogleAdsService:
     # ── Ad ────────────────────────────────────────────────────────────────────
 
     async def create_ad(self, customer_id: str, ad_group_resource: str, final_url: str,
-                        headlines: list[str], descriptions: list[str], status: str) -> dict:
-        client = _get_client()
+                        headlines: list[str], descriptions: list[str], status: str,
+                        refresh_token: str) -> dict:
+        client = _get_client(refresh_token)
         service = client.get_service("AdGroupAdService")
         operation = client.get_type("AdGroupAdOperation")
         ad_group_ad = operation.create
@@ -196,8 +306,9 @@ class GoogleAdsService:
     # ── Keywords ──────────────────────────────────────────────────────────────
 
     async def add_keywords(self, customer_id: str, ad_group_resource: str,
-                           keywords: list[str], match_type: str) -> dict:
-        client = _get_client()
+                           keywords: list[str], match_type: str,
+                           refresh_token: str) -> dict:
+        client = _get_client(refresh_token)
         service = client.get_service("AdGroupCriterionService")
         operations = []
 

@@ -20,6 +20,19 @@ class GoogleAdsRepository:
         cursor = self.db[collection].find({}, {"_id": 0})
         return await cursor.to_list(length=500)
 
+    # ── Accounts ──────────────────────────────────────────────────────────────
+
+    async def save_accessible_accounts(
+        self,
+        user_id: str,
+        customer_resource_names: list[str],
+    ) -> str:
+        return await self.save("ads_accounts", {
+            "user_id": user_id,
+            "accounts": customer_resource_names,
+            "count": len(customer_resource_names),
+        })
+
     # ── Budgets ──────────────────────────────────────────────────────────────
 
     async def save_budget(self, customer_id: str, name: str, amount_inr: int,
@@ -111,3 +124,36 @@ class GoogleAdsRepository:
 
     async def get_keywords(self) -> list[dict]:
         return await self.list_all("ads_keywords")
+
+    # ── Metrics ───────────────────────────────────────────────────────────────
+
+    async def save_metrics(self, customer_id: str, metrics: list[dict]) -> str:
+        return await self.save("ads_metrics", {
+            "customer_id": customer_id,
+            "metrics": metrics,
+        })
+
+    async def get_latest_metrics(self, customer_id: str) -> list[dict]:
+        doc = await self.db["ads_metrics"].find_one(
+            {"customer_id": customer_id},
+            {"_id": 0},
+            sort=[("created_at", -1)],
+        )
+        if doc:
+            return doc.get("metrics", [])
+        return []
+
+    # ── Insights ─────────────────────────────────────────────────────────────
+
+    async def save_insights(self, customer_id: str, insights: list[dict]) -> str:
+        return await self.save("ads_insights", {
+            "customer_id": customer_id,
+            "insights": insights,
+        })
+
+    async def get_latest_insights(self, customer_id: str) -> dict | None:
+        return await self.db["ads_insights"].find_one(
+            {"customer_id": customer_id},
+            {"_id": 0},
+            sort=[("created_at", -1)],
+        )

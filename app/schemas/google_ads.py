@@ -1,7 +1,7 @@
 """Pydantic schemas for Google Ads API requests and responses."""
 
 from typing import List, Optional
-from pydantic import BaseModel, HttpUrl, field_validator
+from pydantic import BaseModel, field_validator
 
 
 # ─── Request Schemas ──────────────────────────────────────────────────────────
@@ -22,9 +22,9 @@ class BudgetCreateRequest(BaseModel):
 
 class CampaignCreateRequest(BaseModel):
     name: str
-    budget_resource: str                 # e.g. customers/XXX/campaignBudgets/YYY
-    channel_type: str = "SEARCH"         # SEARCH | DISPLAY | VIDEO | SHOPPING
-    status: str = "PAUSED"              # ENABLED | PAUSED
+    budget_resource: str
+    channel_type: str = "SEARCH"
+    status: str = "PAUSED"
 
     @field_validator("channel_type")
     @classmethod
@@ -43,12 +43,24 @@ class CampaignCreateRequest(BaseModel):
         return v.upper()
 
 
+class CampaignStatusUpdateRequest(BaseModel):
+    status: str  # ENABLED | PAUSED
+
+    @field_validator("status")
+    @classmethod
+    def validate_status(cls, v: str) -> str:
+        allowed = {"ENABLED", "PAUSED"}
+        if v.upper() not in allowed:
+            raise ValueError(f"status must be one of {allowed}")
+        return v.upper()
+
+
 class AdGroupCreateRequest(BaseModel):
     name: str
-    campaign_resource: str               # e.g. customers/XXX/campaigns/YYY
+    campaign_resource: str
     cpc_bid_inr: int
     type_: str = "SEARCH_STANDARD"
-    status: str = "ENABLED"             # ENABLED | PAUSED | REMOVED
+    status: str = "ENABLED"
 
     @field_validator("status")
     @classmethod
@@ -60,10 +72,10 @@ class AdGroupCreateRequest(BaseModel):
 
 
 class AdCreateRequest(BaseModel):
-    ad_group_resource: str               # e.g. customers/XXX/adGroups/YYY
+    ad_group_resource: str
     final_url: str
-    headlines: List[str]                 # min 3, max 30 chars each
-    descriptions: List[str]             # min 2, max 90 chars each
+    headlines: List[str]
+    descriptions: List[str]
     status: str = "ENABLED"
 
     @field_validator("headlines")
@@ -92,9 +104,9 @@ class AdCreateRequest(BaseModel):
 
 
 class KeywordsAddRequest(BaseModel):
-    ad_group_resource: str               # e.g. customers/XXX/adGroups/YYY
+    ad_group_resource: str
     keywords: List[str]
-    match_type: str = "BROAD"           # BROAD | PHRASE | EXACT
+    match_type: str = "BROAD"
 
     @field_validator("match_type")
     @classmethod
@@ -158,3 +170,65 @@ class CampaignsListResponse(BaseModel):
 
 class AccountsResponse(BaseModel):
     accounts: List[str]
+
+
+# ─── Metrics Schemas ──────────────────────────────────────────────────────────
+
+class CampaignMetric(BaseModel):
+    campaign_id: int
+    campaign_name: str
+    campaign_status: str
+    date: Optional[str] = None
+    clicks: int
+    impressions: int
+    cost_inr: float        # cost in INR (converted from micros)
+    conversions: float
+    ctr: float             # click-through rate (0.0–1.0)
+
+
+class MetricsResponse(BaseModel):
+    metrics: List[CampaignMetric]
+    count: int
+
+
+# ─── Dashboard Schemas ────────────────────────────────────────────────────────
+
+# ─── Connection Schemas ───────────────────────────────────────────────────────
+
+class OAuthUrlResponse(BaseModel):
+    url: str
+
+
+class ConnectionStatus(BaseModel):
+    connected: bool
+    connected_at: Optional[str] = None
+
+
+# ─── Dashboard Schemas ────────────────────────────────────────────────────────
+
+class DashboardStats(BaseModel):
+    total_clicks: int
+    total_impressions: int
+    total_cost_inr: float
+    total_conversions: float
+    avg_ctr: float
+    campaign_count: int
+    active_campaigns: int
+    paused_campaigns: int
+
+
+# ─── AI Insights Schemas ──────────────────────────────────────────────────────
+
+class AiInsight(BaseModel):
+    campaign_id: int
+    campaign_name: str
+    insight_type: str    # LOW_CTR | HIGH_SPEND_LOW_CONV | ZERO_CONVERSIONS | GOOD_PERFORMANCE
+    severity: str        # INFO | WARNING | CRITICAL
+    message: str
+    recommendation: str
+
+
+class InsightsResponse(BaseModel):
+    insights: List[AiInsight]
+    count: int
+    generated_at: str

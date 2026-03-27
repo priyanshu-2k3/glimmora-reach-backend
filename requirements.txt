@@ -23,7 +23,7 @@ httpx==0.28.1
 email-validator==2.2.0
 
 # Google Ads API
-google-ads==24.1.0
+google-ads
 
 # Testing
 pytest>=7.0.0
