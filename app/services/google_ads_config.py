@@ -18,6 +18,8 @@ def load_google_ads_base_config() -> dict:
         with yaml_path.open("r", encoding="utf-8") as f:
             loaded = yaml.safe_load(f) or {}
         if loaded.get("developer_token") and loaded.get("client_id") and loaded.get("client_secret"):
+            # Force a live API version. Older defaults like v17 are sunset.
+            loaded["version"] = settings.google_ads_api_version
             return loaded
 
     # Fallback to env settings.
@@ -30,5 +32,6 @@ def load_google_ads_base_config() -> dict:
         "developer_token": settings.google_ads_developer_token,
         "client_id": settings.google_client_id,
         "client_secret": settings.google_client_secret,
+        "version": settings.google_ads_api_version,
         "use_proto_plus": True,
     }
