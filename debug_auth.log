@@ -25,3 +25,12 @@
 2026-03-25 16:45:09,280 [security] verify_password called
 2026-03-25 16:45:09,280 [security] plain password length=10 (redacted)
 2026-03-25 16:45:09,548 [security] verify result=True
+2026-03-27 15:11:13,780 [security] verify_password called
+2026-03-27 15:11:13,780 [security] plain password length=10 (redacted)
+2026-03-27 15:11:14,042 [security] verify result=True
+2026-03-27 15:11:33,373 [security] verify_password called
+2026-03-27 15:11:33,373 [security] plain password length=10 (redacted)
+2026-03-27 15:11:33,633 [security] verify result=True
+2026-03-27 15:31:03,986 [security] verify_password called
+2026-03-27 15:31:03,986 [security] plain password length=10 (redacted)
+2026-03-27 15:31:04,260 [security] verify result=True

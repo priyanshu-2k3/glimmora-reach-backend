@@ -3,6 +3,7 @@
 import uuid
 from datetime import date, timedelta
 
+from app.config import settings
 from app.repositories.google_ads import GoogleAdsRepository
 from app.services.google_ads_config import load_google_ads_base_config
 
@@ -31,6 +32,16 @@ def _get_client(refresh_token: str | None = None):
     return GoogleAdsClient.load_from_dict(base)
 
 
+def _get_service(client, service_name: str):
+    """Always use configured Google Ads API version (avoid deprecated defaults)."""
+    return client.get_service(service_name, version=settings.google_ads_api_version)
+
+
+def _get_type(client, type_name: str):
+    """Always use configured Google Ads API version for message types."""
+    return client.get_type(type_name, version=settings.google_ads_api_version)
+
+
 class GoogleAdsService:
     def __init__(self, repo: GoogleAdsRepository):
         self.repo = repo
@@ -39,7 +50,7 @@ class GoogleAdsService:
 
     async def list_accounts(self, refresh_token: str) -> list[str]:
         client = _get_client(refresh_token)
-        service = client.get_service("CustomerService")
+        service = _get_service(client, "CustomerService")
         result = service.list_accessible_customers()
         return list(result.resource_names)
 
@@ -48,8 +59,8 @@ class GoogleAdsService:
     async def create_budget(self, customer_id: str, name: str, amount_inr: int,
                             delivery_method: str, refresh_token: str) -> dict:
         client = _get_client(refresh_token)
-        service = client.get_service("CampaignBudgetService")
-        operation = client.get_type("CampaignBudgetOperation")
+        service = _get_service(client, "CampaignBudgetService")
+        operation = _get_type(client, "CampaignBudgetOperation")
         budget = operation.create
 
         unique_name = f"{name} {uuid.uuid4()}"
@@ -78,8 +89,8 @@ class GoogleAdsService:
     async def create_campaign(self, customer_id: str, name: str, budget_resource: str,
                               channel_type: str, status: str, refresh_token: str) -> dict:
         client = _get_client(refresh_token)
-        service = client.get_service("CampaignService")
-        operation = client.get_type("CampaignOperation")
+        service = _get_service(client, "CampaignService")
+        operation = _get_type(client, "CampaignOperation")
         campaign = operation.create
 
         unique_name = f"{name} {uuid.uuid4()}"
@@ -112,7 +123,7 @@ class GoogleAdsService:
 
     async def list_campaigns(self, customer_id: str, refresh_token: str) -> list[dict]:
         client = _get_client(refresh_token)
-        ga_service = client.get_service("GoogleAdsService")
+        ga_service = _get_service(client, "GoogleAdsService")
         query = """
             SELECT campaign.id, campaign.name, campaign.status
             FROM campaign
@@ -132,8 +143,8 @@ class GoogleAdsService:
     async def update_campaign_status(self, customer_id: str, campaign_id: str,
                                      status: str, refresh_token: str) -> dict:
         client = _get_client(refresh_token)
-        service = client.get_service("CampaignService")
-        operation = client.get_type("CampaignOperation")
+        service = _get_service(client, "CampaignService")
+        operation = _get_type(client, "CampaignOperation")
         campaign = operation.update
 
         campaign.resource_name = f"customers/{customer_id}/campaigns/{campaign_id}"
@@ -150,8 +161,8 @@ class GoogleAdsService:
     async def delete_campaign(self, customer_id: str, campaign_id: str,
                               refresh_token: str) -> dict:
         client = _get_client(refresh_token)
-        service = client.get_service("CampaignService")
-        operation = client.get_type("CampaignOperation")
+        service = _get_service(client, "CampaignService")
+        operation = _get_type(client, "CampaignOperation")
         operation.remove = f"customers/{customer_id}/campaigns/{campaign_id}"
 
         service.mutate_campaigns(customer_id=customer_id, operations=[operation])
@@ -164,7 +175,7 @@ class GoogleAdsService:
     async def fetch_metrics(self, customer_id: str, refresh_token: str,
                             days: int = 30) -> list[dict]:
         client = _get_client(refresh_token)
-        ga_service = client.get_service("GoogleAdsService")
+        ga_service = _get_service(client, "GoogleAdsService")
 
         end = date.today()
         start = end - timedelta(days=days)
@@ -234,8 +245,8 @@ class GoogleAdsService:
                              cpc_bid_inr: int, type_: str, status: str,
                              refresh_token: str) -> dict:
         client = _get_client(refresh_token)
-        service = client.get_service("AdGroupService")
-        operation = client.get_type("AdGroupOperation")
+        service = _get_service(client, "AdGroupService")
+        operation = _get_type(client, "AdGroupOperation")
         ad_group = operation.create
 
         unique_name = f"{name} {uuid.uuid4()}"
@@ -267,8 +278,8 @@ class GoogleAdsService:
                         headlines: list[str], descriptions: list[str], status: str,
                         refresh_token: str) -> dict:
         client = _get_client(refresh_token)
-        service = client.get_service("AdGroupAdService")
-        operation = client.get_type("AdGroupAdOperation")
+        service = _get_service(client, "AdGroupAdService")
+        operation = _get_type(client, "AdGroupAdOperation")
         ad_group_ad = operation.create
 
         ad_group_ad.ad_group = ad_group_resource
@@ -277,11 +288,11 @@ class GoogleAdsService:
 
         rsa = ad.responsive_search_ad
         for text in headlines:
-            h = client.get_type("AdTextAsset")
+            h = _get_type(client, "AdTextAsset")
             h.text = text
             rsa.headlines.append(h)
         for text in descriptions:
-            d = client.get_type("AdTextAsset")
+            d = _get_type(client, "AdTextAsset")
             d.text = text
             rsa.descriptions.append(d)
 
@@ -309,11 +320,11 @@ class GoogleAdsService:
                            keywords: list[str], match_type: str,
                            refresh_token: str) -> dict:
         client = _get_client(refresh_token)
-        service = client.get_service("AdGroupCriterionService")
+        service = _get_service(client, "AdGroupCriterionService")
         operations = []
 
         for keyword_text in keywords:
-            operation = client.get_type("AdGroupCriterionOperation")
+            operation = _get_type(client, "AdGroupCriterionOperation")
             criterion = operation.create
             criterion.ad_group = ad_group_resource
             criterion.status = client.enums.AdGroupCriterionStatusEnum.ENABLED

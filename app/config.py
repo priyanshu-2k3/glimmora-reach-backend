@@ -35,6 +35,7 @@ class Settings(BaseSettings):
 
     # Google Ads API
     google_ads_developer_token: str = ""
+    google_ads_api_version: str = "v23"
     google_ads_redirect_uri: str = "http://localhost:8000/api/v1/google-ads/oauth/callback"
 
     # Super Admin seed (for seed.py)
