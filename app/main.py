@@ -12,6 +12,7 @@ from app.repositories.invitation import InvitationRepository
 from app.repositories.organization import OrganizationRepository
 from app.repositories.user import UserRepository
 from app.repositories.google_ads_connection import GoogleAdsConnectionRepository
+from app.repositories.meta_ads_connection import MetaAdsConnectionRepository
 
 
 @asynccontextmanager
@@ -22,6 +23,7 @@ async def lifespan(app: FastAPI):
     await OrganizationRepository(db).create_indexes()
     await InvitationRepository(db).create_indexes()
     await GoogleAdsConnectionRepository(db).create_indexes()
+    await MetaAdsConnectionRepository(db).create_indexes()
     yield
     await close_db()
 
