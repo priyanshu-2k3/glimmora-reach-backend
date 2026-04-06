@@ -80,6 +80,101 @@ Base URL: `http://localhost:8000/api/v1`
 
 ---
 
+### Meta Ads Routes — `/api/v1/meta-ads`
+
+> All routes marked **[Meta Auth Required]** need the user to have connected their Meta Ads account first via the OAuth flow.
+> Budget amounts are in **cents** (e.g. `"5000"` = $50 or ₹50).
+
+#### Connect
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/oauth/url` | GET | `Authorization: Bearer <token>` | None | `url: str` | Returns Facebook OAuth URL. Open in browser to connect Meta Ads. |
+| `/meta-ads/oauth/callback` | GET | None | `code` (query), `state` (query = user_id) | HTML page | Facebook redirects here. Exchanges code for long-lived token (~60 days), stores in DB. |
+| `/meta-ads/connection` | GET | `Authorization: Bearer <token>` | None | `connected: bool`, `connected_at: str` | Checks if user has a connected Meta Ads account. |
+| `/meta-ads/connection` | DELETE | `Authorization: Bearer <token>` | None | `status: "disconnected"` | Removes stored Meta token for current user. |
+
+#### Account
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/account/ad-accounts` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | None | `data: list` (id, name, currency, timezone, status, business) | Lists all ad accounts accessible to the connected token. |
+| `/meta-ads/account/pages` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | None | `data: list` (id, name, category, access_token, tasks) | Lists all Facebook Pages managed by the user. Page tokens included. |
+| `/meta-ads/account/details/{ad_account_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_account_id` (path) | id, name, currency, balance, amount_spent, spend_cap, business | Gets full details of a specific ad account. |
+
+#### Campaigns
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/campaigns/{ad_account_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_account_id` (path), `status_filter` (query, opt) | `data: list` of campaigns | Lists campaigns. Filter: ACTIVE\|PAUSED\|DELETED\|ARCHIVED. |
+| `/meta-ads/campaigns/get/{campaign_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `campaign_id` (path) | Campaign object | Gets a single campaign by ID. |
+| `/meta-ads/campaigns` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `ad_account_id`, `name`, `objective`, `status`, `special_ad_categories`, `daily_budget`, `lifetime_budget`, `start_time`, `stop_time`, `bid_strategy` | `status`, `meta_id`, `db_id` | Creates a campaign. Default status: PAUSED. Saved to MongoDB. |
+| `/meta-ads/campaigns/{campaign_id}` | PATCH | `Authorization: Bearer <token>` **[Meta Auth Required]** | `campaign_id` (path), body: any updatable fields | `success: true` | Updates campaign fields (name, status, budget, etc.). |
+| `/meta-ads/campaigns/{campaign_id}` | DELETE | `Authorization: Bearer <token>` **[Meta Auth Required]** | `campaign_id` (path) | `success: true` | Deletes a campaign permanently. |
+
+#### Ad Sets
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/adsets/{ad_account_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_account_id` (path), `status_filter` (query, opt) | `data: list` of ad sets | Lists ad sets with targeting info. |
+| `/meta-ads/adsets/get/{adset_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `adset_id` (path) | Ad set object | Gets a single ad set by ID. |
+| `/meta-ads/adsets` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `ad_account_id`, `campaign_id`, `name`, `status`, `daily_budget`, `billing_event`, `optimization_goal`, `bid_strategy`, `countries`, `age_min`, `age_max`, targeting fields | `status`, `meta_id`, `db_id` | Creates an ad set with full targeting. Saved to MongoDB. |
+| `/meta-ads/adsets/{adset_id}` | PATCH | `Authorization: Bearer <token>` **[Meta Auth Required]** | `adset_id` (path), body: updatable fields | `success: true` | Updates ad set fields. |
+| `/meta-ads/adsets/{adset_id}` | DELETE | `Authorization: Bearer <token>` **[Meta Auth Required]** | `adset_id` (path) | `success: true` | Deletes an ad set permanently. |
+
+#### Media
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/media/upload-image` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | form: `ad_account_id`, `image` (file) | Image data with `hash` | Uploads image. Returns image_hash for use in creatives. Saved to MongoDB. |
+| `/meta-ads/media/images/{ad_account_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_account_id` (path) | `data: list` (hash, name, url, dimensions) | Lists all uploaded images. |
+| `/meta-ads/media/upload-video` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `ad_account_id`, `video_url`, `title` | Video data with `id` | Uploads video from public URL. Returns video_id for creatives. Saved to MongoDB. |
+| `/meta-ads/media/videos/{ad_account_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_account_id` (path) | `data: list` (id, title, status, picture, length) | Lists all uploaded videos. |
+
+#### Creatives
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/creatives/{ad_account_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_account_id` (path) | `data: list` of creatives | Lists all ad creatives. |
+| `/meta-ads/creatives/get/{creative_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `creative_id` (path) | Creative object | Gets a single creative by ID. |
+| `/meta-ads/creatives/link` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `ad_account_id`, `page_id`, `name`, `image_hash`, `link`, `message`, `headline`, `description`, `call_to_action_type`, `instagram_actor_id` (opt) | `status`, `meta_id`, `db_id` | Creates an image/link ad creative. Saved to MongoDB. |
+| `/meta-ads/creatives/video` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `ad_account_id`, `page_id`, `name`, `video_id`, `title`, `message`, `description`, `call_to_action_type`, `link`, `instagram_actor_id` (opt) | `status`, `meta_id`, `db_id` | Creates a video ad creative. Saved to MongoDB. |
+
+#### Ads
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/ads/{ad_account_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_account_id` (path), `status_filter` (query, opt) | `data: list` of ads | Lists ads with creative info. |
+| `/meta-ads/ads/get/{ad_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_id` (path) | Ad object | Gets a single ad with creative thumbnail. |
+| `/meta-ads/ads` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `ad_account_id`, `adset_id`, `creative_id`, `name`, `status`, `tracking_specs` (opt) | `status`, `meta_id`, `db_id` | Creates an ad by linking ad set + creative. Saved to MongoDB. |
+| `/meta-ads/ads/{ad_id}` | PATCH | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_id` (path), body: `name` (opt), `status` (opt) | `success: true` | Updates ad name or status. |
+| `/meta-ads/ads/{ad_id}` | DELETE | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_id` (path) | `success: true` | Deletes an ad permanently. |
+
+#### Insights / Analytics
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/insights` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `object_id`, `level`, `fields`, `date_preset`, `time_increment`, `breakdowns` (opt), `action_attribution_windows` (opt), `time_range_since` (opt), `time_range_until` (opt) | `data: list` of metric rows | Gets metrics for a campaign, ad set, or ad. Saved to MongoDB. |
+| `/meta-ads/insights/account` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `ad_account_id`, `fields`, `date_preset`, `time_increment`, `breakdowns` (opt), `time_range_since` (opt), `time_range_until` (opt) | `data: list` of aggregated metrics | Gets account-level aggregated metrics. Saved to MongoDB. |
+
+#### Custom Audiences
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/audiences/{ad_account_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `ad_account_id` (path) | `data: list` (id, name, subtype, count, description) | Lists custom audiences. |
+| `/meta-ads/audiences` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `ad_account_id`, `name`, `subtype`, `description` | `status`, `meta_id`, `db_id` | Creates a custom audience. Saved to MongoDB. |
+| `/meta-ads/audiences/{audience_id}` | DELETE | `Authorization: Bearer <token>` **[Meta Auth Required]** | `audience_id` (path) | `success: true` | Deletes a custom audience. |
+
+#### Lead Generation
+
+| Route | Method | Headers | Request Params | Response | What It Does |
+|---|---|---|---|---|---|
+| `/meta-ads/leads/form` | POST | `Authorization: Bearer <token>` **[Meta Auth Required]** | body: `page_id`, `name`, `questions` (list), `privacy_policy_url`, `thank_you_message` | `status`, `meta_id`, `db_id` | Creates a lead gen form on a Facebook Page. Uses page token automatically. Saved to MongoDB. |
+| `/meta-ads/leads/forms/{page_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `page_id` (path) | `data: list` (id, name, status, leads_count) | Lists lead gen forms for a page. Uses page token automatically. |
+| `/meta-ads/leads/responses/{form_id}` | GET | `Authorization: Bearer <token>` **[Meta Auth Required]** | `form_id` (path), `page_id` (query, required) | `data: list` (id, created_time, field_data) | Gets submitted leads from a form. Saved to MongoDB. |
+
+---
+
 ### Health
 
 | Route | Method | Headers | Request Params | Response | What It Does |
@@ -182,12 +277,77 @@ Run in this exact sequence. Each step depends on the one before it.
 28. GET   /google-ads/keywords            → verify keywords in DB
 ```
 
-### Phase 7 — Cleanup / Disconnect
+### Phase 7 — Cleanup / Disconnect (Google Ads)
 
 ```
 29. DELETE /google-ads/campaign/{id}      → delete a campaign from Google Ads
 30. DELETE /google-ads/connection         → disconnect Google Ads account
 31. GET    /google-ads/connection         → verify connected: false
+```
+
+### Phase 8 — Connect Meta Ads Account
+
+```
+32. GET  /meta-ads/oauth/url             → get Facebook OAuth URL
+    ACTION: open URL in browser, sign in with Facebook, grant permissions
+    ACTION: browser shows "Meta Ads Connected!"
+33. GET  /meta-ads/connection            → verify connected: true
+34. GET  /meta-ads/account/ad-accounts   → list ad accounts
+    SAVE: ad_account_id (number from "act_XXXX", e.g. "1234745712076780")
+35. GET  /meta-ads/account/pages         → list Facebook Pages
+    SAVE: page_id (e.g. "1015507024977375")
+```
+
+### Phase 9 — Meta Campaign Building
+
+```
+36. POST /meta-ads/campaigns             → create campaign (PAUSED)
+    body: { "ad_account_id": "<from step 34>", "name": "Test Campaign",
+            "objective": "OUTCOME_TRAFFIC", "status": "PAUSED" }
+    SAVE: meta_id as $CAMPAIGN_ID
+
+37. POST /meta-ads/adsets                → create ad set (PAUSED)
+    body: { "ad_account_id": "<from step 34>", "campaign_id": "<from step 36>",
+            "name": "Test AdSet", "status": "PAUSED", "daily_budget": "10000",
+            "billing_event": "IMPRESSIONS", "optimization_goal": "LINK_CLICKS",
+            "bid_strategy": "LOWEST_COST_WITHOUT_CAP", "countries": ["IN"] }
+    SAVE: meta_id as $ADSET_ID
+
+38. POST /meta-ads/media/upload-image    → upload image (form-data)
+    form: ad_account_id=<from step 34>, image=<file>
+    SAVE: image_hash from response
+
+39. POST /meta-ads/creatives/link        → create image creative
+    body: { "ad_account_id": "<from step 34>", "page_id": "<from step 35>",
+            "name": "Test Creative", "image_hash": "<from step 38>",
+            "link": "https://yoursite.com", "message": "Check this out" }
+    SAVE: meta_id as $CREATIVE_ID
+
+40. POST /meta-ads/ads                   → create ad (PAUSED)
+    body: { "ad_account_id": "<from step 34>", "adset_id": "<from step 37>",
+            "creative_id": "<from step 39>", "name": "Test Ad", "status": "PAUSED" }
+```
+
+### Phase 10 — Meta Analytics + Leads
+
+```
+41. POST /meta-ads/insights/account      → get account-level metrics
+42. POST /meta-ads/insights              → get campaign-level metrics
+43. POST /meta-ads/leads/form            → create lead gen form
+    body: { "page_id": "<from step 35>", "name": "Contact Form",
+            "privacy_policy_url": "https://yoursite.com/privacy" }
+44. GET  /meta-ads/leads/forms/{page_id} → list lead forms
+45. GET  /meta-ads/leads/responses/{form_id}?page_id=<page_id> → get submitted leads
+```
+
+### Phase 11 — Meta Cleanup / Disconnect
+
+```
+46. DELETE /meta-ads/ads/{ad_id}         → delete ad
+47. DELETE /meta-ads/adsets/{adset_id}   → delete ad set
+48. DELETE /meta-ads/campaigns/{campaign_id} → delete campaign
+49. DELETE /meta-ads/connection          → disconnect Meta Ads account
+50. GET    /meta-ads/connection          → verify connected: false
 ```
 
 ---
@@ -204,6 +364,15 @@ Run in this exact sequence. Each step depends on the one before it.
 | `match_type` | `BROAD` | BROAD, PHRASE, EXACT |
 | `delivery_method` | `STANDARD` | STANDARD, ACCELERATED |
 | `role` | `campaign_manager` | super_admin, admin, campaign_manager, analyst, client |
+| **Meta Ads** | | |
+| `ad_account_id` | `1234745712076780` | Number only, without `act_` prefix |
+| `page_id` | `1015507024977375` | Facebook Page ID from `/account/pages` |
+| `objective` | `OUTCOME_TRAFFIC` | OUTCOME_TRAFFIC, OUTCOME_LEADS, OUTCOME_SALES, OUTCOME_ENGAGEMENT, OUTCOME_APP_PROMOTION, OUTCOME_AWARENESS |
+| `daily_budget` | `"10000"` | In cents. `"10000"` = ₹100 (INR) or $100 (USD) |
+| `billing_event` | `IMPRESSIONS` | IMPRESSIONS, LINK_CLICKS, APP_INSTALLS |
+| `optimization_goal` | `LINK_CLICKS` | LINK_CLICKS, IMPRESSIONS, REACH, LEAD_GENERATION, OFFSITE_CONVERSIONS |
+| `call_to_action_type` | `LEARN_MORE` | LEARN_MORE, SHOP_NOW, SIGN_UP, DOWNLOAD, CONTACT_US, APPLY_NOW |
+| `date_preset` | `last_30d` | today, yesterday, last_7d, last_30d, last_90d, this_month, lifetime |
 
 ---
 

@@ -38,6 +38,12 @@ class Settings(BaseSettings):
     google_ads_api_version: str = "v23"
     google_ads_redirect_uri: str = "http://localhost:8000/api/v1/google-ads/oauth/callback"
 
+    # Meta (Facebook) Ads API
+    meta_app_id: str = ""
+    meta_app_secret: str = ""
+    meta_redirect_uri: str = "http://localhost:8000/api/v1/meta-ads/oauth/callback"
+    meta_graph_version: str = "v19.0"
+
     # Super Admin seed (for seed.py)
     super_admin_email: str = ""
     super_admin_password: str = ""
