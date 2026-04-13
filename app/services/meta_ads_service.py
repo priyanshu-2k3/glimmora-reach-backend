@@ -314,7 +314,7 @@ async def list_images(token: str, ad_account_id: str) -> dict:
 async def upload_video(token: str, ad_account_id: str,
                        video_url: str, title: str = "Ad Video") -> dict:
     payload = {"file_url": video_url, "title": title}
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=120.0) as client:
         resp = await client.post(
             f"{GRAPH_URL}/act_{ad_account_id}/advideos",
             json=payload, headers=_h(token),
